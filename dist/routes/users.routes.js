@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userRoutes = void 0;
+const express_1 = require("express");
+const users_controllers_1 = require("../controllers/users.controllers");
+const validate_middleware_1 = require("../middlewares/validate.middleware");
+const users_schema_1 = require("../schemas/users.schema");
+const ensureTokenIsValid_middleware_1 = require("../middlewares/ensureTokenIsValid.middleware");
+const ensureIsAdmin_middleware_1 = require("../middlewares/ensureIsAdmin.middleware");
+const ensureUserExists_middleware_1 = require("../middlewares/ensureUserExists.middleware");
+const ensureUserIsActive_middleware_1 = require("../middlewares/ensureUserIsActive.middleware");
+exports.userRoutes = (0, express_1.Router)();
+exports.userRoutes.post('', (0, validate_middleware_1.validateDataMiddleware)(users_schema_1.usersSchemaRequest), users_controllers_1.createUsersController);
+exports.userRoutes.get('', ensureTokenIsValid_middleware_1.ensureTokenIsValidMiddleware, ensureIsAdmin_middleware_1.ensureIsAdminMiddleware, users_controllers_1.retrieveUsersController);
+exports.userRoutes.get('/profile', ensureTokenIsValid_middleware_1.ensureTokenIsValidMiddleware, users_controllers_1.returnUserController);
+exports.userRoutes.patch('/credits/:id', ensureTokenIsValid_middleware_1.ensureTokenIsValidMiddleware, ensureIsAdmin_middleware_1.ensureIsAdminMiddleware, ensureUserExists_middleware_1.ensureUserExistsMiddleware, users_controllers_1.sendCreditsUserController);
+exports.userRoutes.delete('/:id', ensureTokenIsValid_middleware_1.ensureTokenIsValidMiddleware, ensureIsAdmin_middleware_1.ensureIsAdminMiddleware, ensureUserExists_middleware_1.ensureUserExistsMiddleware, ensureUserIsActive_middleware_1.ensureUserIsActiveMiddleware, users_controllers_1.deleteUserController);
