@@ -17,7 +17,6 @@ const pg_format_1 = __importDefault(require("pg-format"));
 const data_source_1 = require("../../data-source");
 const rastreio_entity_1 = __importDefault(require("../../entities/rastreio.entity"));
 const buyCodesService = (token, id, codes) => __awaiter(void 0, void 0, void 0, function* () {
-   
     const queryString1 = `
 	UPDATE users
 		SET credits = credits - ${codes.length}

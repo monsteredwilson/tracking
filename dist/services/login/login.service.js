@@ -30,7 +30,6 @@ const loginService = (loginData) => __awaiter(void 0, void 0, void 0, function* 
     const userRepository = data_source_1.AppDataSource.getRepository(users_entity_1.default);
     const queryResult = yield userRepository.query(queryString);
     const user = queryResult[0];
-    
     if (queryResult.length == 0) {
         throw new error_1.AppError('Wrong email/password', 401);
     }
@@ -47,7 +46,6 @@ const loginService = (loginData) => __awaiter(void 0, void 0, void 0, function* 
         expiresIn: process.env.EXPIRES_IN,
         subject: user.id.toString()
     });
-    
     return { token };
 });
 exports.loginService = loginService;
