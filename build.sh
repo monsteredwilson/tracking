@@ -3,6 +3,6 @@
 # exit on error
 set -o errexit
 
-npm install
+yarn
 npm run build
 npm run typeorm migration:run -- -d dist/data-source
