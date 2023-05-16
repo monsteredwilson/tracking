@@ -12,12 +12,14 @@ const config = () => {
             port: parseInt(process.env.DB_TEST_PORT),
         };
     }
+    const dburl = process.env.DATABASE_URL;
     return {
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        host: process.env.DB_HOST,
-        database: process.env.DB,
+        // user: process.env.DB_USER,
+        // password: process.env.DB_PASSWORD,
+        // host: process.env.DB_HOST,
+        // database: process.env.DB,
         port: parseInt(process.env.DB_PORT),
+        connectionString: dburl
     };
 };
 const client = new pg_1.Client(config());
