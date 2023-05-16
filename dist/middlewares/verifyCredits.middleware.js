@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyCreditsMiddleware = void 0;
-const database_1 = require("../database");
 const error_1 = require("../error");
+const data_source_1 = require("../data-source");
+const users_entity_1 = __importDefault(require("../entities/users.entity"));
 const verifyCreditsMiddleware = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = response.locals;
     const { codes } = request.body;
@@ -21,8 +25,9 @@ const verifyCreditsMiddleware = (request, response, next) => __awaiter(void 0, v
 		users
 	WHERE id = ${id}
 	`;
-    const queryResult = yield database_1.client.query(queryString);
-    if (queryResult.rows[0].credits < codes.length) {
+    const userRepository = data_source_1.AppDataSource.getRepository(users_entity_1.default);
+    const queryResult = yield userRepository.query(queryString);
+    if (queryResult[0].credits < codes.length) {
         throw new error_1.AppError('Insufficient credits', 401);
     }
     return next();

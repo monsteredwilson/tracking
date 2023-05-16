@@ -1,7 +1,8 @@
-import { QueryResult } from "pg"
-import { TCodes } from "../../interfaces/codes.interfaces"
-import { client } from "../../database"
 
+import { TCodes } from "../../interfaces/codes.interfaces"
+import { Repository } from 'typeorm'
+import Rastreio from "../../entities/rastreio.entity"
+import { AppDataSource } from "../../data-source"
 
 
 export const retrieveCodesUserService = async (token: string | undefined, id: number): Promise<TCodes[]> => {
@@ -15,7 +16,9 @@ export const retrieveCodesUserService = async (token: string | undefined, id: nu
 		"userId" = ${id}
 	`
 
-	const queryResult: QueryResult<TCodes> = await client.query(queryString)
+	const codesRepository: Repository<Rastreio> = AppDataSource.getRepository(Rastreio)
 
-	return queryResult.rows
+	const queryResult = await codesRepository.query(queryString)
+
+	return queryResult
 }

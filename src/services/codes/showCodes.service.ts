@@ -1,7 +1,9 @@
-import { QueryResult } from "pg";
+
 import { TCodesResponse, TFilter } from "../../interfaces/codes.interfaces";
-import { client } from "../../database";
 import { AppError } from "../../error";
+import {Repository} from 'typeorm'
+import Rastreio from "../../entities/rastreio.entity";
+import { AppDataSource } from "../../data-source";
 
 export const showCodesService =async (token: string | undefined, filter: TFilter): Promise<TCodesResponse[]> => {
 
@@ -26,12 +28,13 @@ export const showCodesService =async (token: string | undefined, filter: TFilter
 			("endereco_final" LIKE '${cidadeFinal}%')
 		ORDER BY "data_de_postagem" DESC	
 	`
+	const codesRepository: Repository<Rastreio> = AppDataSource.getRepository(Rastreio)
 
-	const queryResult: QueryResult<TCodesResponse> = await client.query(queryString)
+	const queryResult = await codesRepository.query(queryString)
 
-	if (queryResult.rowCount == 0){
+	if (queryResult.length == 0){
 		throw new AppError('Code not found, try again with another date or place', 404)
 	}
 
-	return queryResult.rows
+	return queryResult
 }

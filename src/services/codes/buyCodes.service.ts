@@ -1,14 +1,14 @@
 import format from "pg-format";
 import { TBuyCodesRequest, TCodes } from "../../interfaces/codes.interfaces";
-import { QueryResult } from "pg";
-import { client } from "../../database";
 import { TUsersResponse } from "../../interfaces/users.interfaces";
+import { AppDataSource } from "../../data-source";
+import Rastreio from "../../entities/rastreio.entity";
+import {Repository} from 'typeorm'
 
 
 export const buyCodesService =async (token: string | undefined, id: number, codes: []):Promise<TCodes[]| any> => {
 
-	console.log(id)
-	console.log(codes)
+	
 
 	const queryString1: string = `
 	UPDATE users
@@ -17,7 +17,7 @@ export const buyCodesService =async (token: string | undefined, id: number, code
 		id = ${id}
 	`
 
-	await client.query(queryString1)
+	await AppDataSource.getRepository(Rastreio).query(queryString1)
 
 	const queryString2: string = format(`
 	UPDATE rastreio
@@ -31,7 +31,9 @@ export const buyCodesService =async (token: string | undefined, id: number, code
 	codes
 	)
 
-	const queryResult: QueryResult<TCodes> = await client.query(queryString2)
+	const codesRepository: Repository<Rastreio> = AppDataSource.getRepository(Rastreio)
 
-	return queryResult.rows
+	const queryResult = await codesRepository.query(queryString2)
+
+	return queryResult[0]
 }

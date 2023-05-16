@@ -14,17 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buyCodesService = void 0;
 const pg_format_1 = __importDefault(require("pg-format"));
-const database_1 = require("../../database");
+const data_source_1 = require("../../data-source");
+const rastreio_entity_1 = __importDefault(require("../../entities/rastreio.entity"));
 const buyCodesService = (token, id, codes) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(id);
-    console.log(codes);
+   
     const queryString1 = `
 	UPDATE users
 		SET credits = credits - ${codes.length}
 	WHERE
 		id = ${id}
 	`;
-    yield database_1.client.query(queryString1);
+    yield data_source_1.AppDataSource.getRepository(rastreio_entity_1.default).query(queryString1);
     const queryString2 = (0, pg_format_1.default)(`
 	UPDATE rastreio
 		SET "userId" = ${id}
@@ -34,7 +34,8 @@ const buyCodesService = (token, id, codes) => __awaiter(void 0, void 0, void 0, 
 		"id","codigo","data_de_postagem","descricao_inicial","endereco_envio","data_last_review","ultima_descricao","endereco_final"
 	;
 	`, codes);
-    const queryResult = yield database_1.client.query(queryString2);
-    return queryResult.rows;
+    const codesRepository = data_source_1.AppDataSource.getRepository(rastreio_entity_1.default);
+    const queryResult = yield codesRepository.query(queryString2);
+    return queryResult[0];
 });
 exports.buyCodesService = buyCodesService;

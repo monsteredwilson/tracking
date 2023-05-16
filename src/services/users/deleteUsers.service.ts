@@ -1,8 +1,8 @@
-import format from "pg-format";
+
 import { TUsers, TUsersRequest, TUsersResponse } from "../../interfaces/users.interfaces";
-import * as bcrypt from 'bcryptjs'
-import { QueryResult } from "pg";
-import { client } from "../../database";
+import {Repository} from 'typeorm'
+import { AppDataSource } from "../../data-source";
+import User from "../../entities/users.entity";
 
 
 export const deleteUserService =async (token: string | undefined, isAdmin: boolean, id: number): Promise<TUsersResponse> => {
@@ -16,8 +16,10 @@ export const deleteUserService =async (token: string | undefined, isAdmin: boole
 		id = ${id}
 	`
 
-	const queryResult: QueryResult<TUsersResponse> = await client.query(queryString)
+	const userRepository: Repository<User> = AppDataSource.getRepository(User)
+
+	const queryResult = await userRepository.query(queryString)
 	queryResult
 
-	return queryResult.rows[0]
+	return queryResult[0]
 }

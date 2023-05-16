@@ -3,6 +3,7 @@
 		"target": "es2016",
 		"module": "commonjs",
 		"typeRoots": [
+			"src/@types",
 			"node_modules/@types"
 		],
 		"esModuleInterop": true,
@@ -10,6 +11,9 @@
 		"strict": true,
 		"exactOptionalPropertyTypes": true,
 		"skipLibCheck": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"strictPropertyInitialization": false,
 		"outDir": "./dist"
 	},
 	"include": [

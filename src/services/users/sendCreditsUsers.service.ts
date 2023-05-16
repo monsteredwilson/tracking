@@ -1,7 +1,8 @@
-import { QueryConfig, QueryResult } from "pg"
-import format from "pg-format"
+
 import { TUsersResponse } from "../../interfaces/users.interfaces"
-import { client } from "../../database"
+import { AppDataSource } from "../../data-source"
+import {Repository} from 'typeorm'
+import User from "../../entities/users.entity"
 
 export const sendCreditsUserService =async (token: string | undefined, isAdmin: boolean, id: number, credits: number): Promise<TUsersResponse> => {
 	
@@ -15,7 +16,9 @@ export const sendCreditsUserService =async (token: string | undefined, isAdmin: 
 	;
 	`
 
-	const queryResult: QueryResult<TUsersResponse> = await client.query(queryString)
+	const userRepository: Repository<User> = AppDataSource.getRepository(User)
 
-	return queryResult.rows[0]
+	const queryResult = await userRepository.query(queryString)
+
+	return queryResult[0]
 }

@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.retrieveCodesUserService = void 0;
-const database_1 = require("../../database");
+const rastreio_entity_1 = __importDefault(require("../../entities/rastreio.entity"));
+const data_source_1 = require("../../data-source");
 const retrieveCodesUserService = (token, id) => __awaiter(void 0, void 0, void 0, function* () {
     const queryString = `
 	SELECT 
@@ -20,7 +24,8 @@ const retrieveCodesUserService = (token, id) => __awaiter(void 0, void 0, void 0
 	WHERE
 		"userId" = ${id}
 	`;
-    const queryResult = yield database_1.client.query(queryString);
-    return queryResult.rows;
+    const codesRepository = data_source_1.AppDataSource.getRepository(rastreio_entity_1.default);
+    const queryResult = yield codesRepository.query(queryString);
+    return queryResult;
 });
 exports.retrieveCodesUserService = retrieveCodesUserService;

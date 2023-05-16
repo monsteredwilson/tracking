@@ -6,7 +6,7 @@ import { loginRoutes } from './routes/login.routes'
 import { codesRoutes } from './routes/codes.routes'
 
 const app: Application = express()
-app.use(json())
+app.use(express.json())
 app.use('/users', userRoutes)
 app.use('/login', loginRoutes)
 app.use('/codes', codesRoutes)

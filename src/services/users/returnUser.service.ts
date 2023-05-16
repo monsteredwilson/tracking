@@ -1,11 +1,12 @@
 import { QueryConfig, QueryResult } from "pg";
 import { TUsersResponse } from "../../interfaces/users.interfaces";
-import { client } from "../../database";
-
+import {Repository} from 'typeorm'
+import User from "../../entities/users.entity";
+import { AppDataSource } from "../../data-source";
 
 export const returnUserService =async (token: string | undefined, id: number): Promise<TUsersResponse> => {
 
-	const queryString: string = `
+	const queryString = `
 		SELECT 
 			"id","username","email","credits"
 		FROM
@@ -19,7 +20,9 @@ export const returnUserService =async (token: string | undefined, id: number): P
 		values: [id]
 	}
 
-	const queryResult: QueryResult<TUsersResponse> = await client.query(queryConfig)
+	const userRepository: Repository<User> = AppDataSource.getRepository(User)
+
+	const queryResult = await userRepository.query(queryConfig as any)
 	
-	return queryResult.rows[0]
+	return queryResult[0]
 }

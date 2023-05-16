@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { QueryResult } from "pg";
-import { TUsersResponse } from "../interfaces/users.interfaces";
-import { client } from "../database";
 import { AppError } from "../error";
+import { AppDataSource } from "../data-source";
+import {Repository} from 'typeorm'
+import User from "../entities/users.entity";
 
 export const verifyCreditsMiddleware =async (request: Request, response:Response, next: NextFunction): Promise<Response|void> => {
 	
@@ -16,9 +16,11 @@ export const verifyCreditsMiddleware =async (request: Request, response:Response
 	WHERE id = ${id}
 	`
 
-	const queryResult: QueryResult<TUsersResponse> = await client.query(queryString)
+	const userRepository: Repository<User> = AppDataSource.getRepository(User)
 
-	if(queryResult.rows[0].credits < codes.length){
+	const queryResult = await userRepository.query(queryString)
+
+	if(queryResult[0].credits < codes.length){
 		throw new AppError('Insufficient credits', 401)
 	}
 

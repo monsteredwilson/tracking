@@ -1,6 +1,8 @@
-import { QueryConfig, QueryResult } from "pg";
+
 import { TUsersResponse } from "../../interfaces/users.interfaces";
-import { client } from "../../database";
+import {Repository} from 'typeorm'
+import User from "../../entities/users.entity";
+import { AppDataSource } from "../../data-source";
 
 export const retrieveUsersService = async (token: string | undefined, isAdmin: boolean): Promise<TUsersResponse[]> => {
 
@@ -11,7 +13,9 @@ export const retrieveUsersService = async (token: string | undefined, isAdmin: b
 		users
 	`
 
-	const queryResult: QueryResult<TUsersResponse> = await client.query(queryString)
+	const userRepository: Repository<User> = AppDataSource.getRepository(User)
 
-	return queryResult.rows
+	const queryResult = await userRepository.query(queryString)
+
+	return queryResult
 }

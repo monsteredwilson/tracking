@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.retrieveUsersService = void 0;
-const database_1 = require("../../database");
+const users_entity_1 = __importDefault(require("../../entities/users.entity"));
+const data_source_1 = require("../../data-source");
 const retrieveUsersService = (token, isAdmin) => __awaiter(void 0, void 0, void 0, function* () {
     const queryString = `
 	SELECT 
@@ -18,7 +22,8 @@ const retrieveUsersService = (token, isAdmin) => __awaiter(void 0, void 0, void 
 	FROM 
 		users
 	`;
-    const queryResult = yield database_1.client.query(queryString);
-    return queryResult.rows;
+    const userRepository = data_source_1.AppDataSource.getRepository(users_entity_1.default);
+    const queryResult = yield userRepository.query(queryString);
+    return queryResult;
 });
 exports.retrieveUsersService = retrieveUsersService;

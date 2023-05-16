@@ -14,8 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ensureCodesExistsMiddleware = void 0;
 const error_1 = require("../error");
-const database_1 = require("../database");
 const pg_format_1 = __importDefault(require("pg-format"));
+const data_source_1 = require("../data-source");
+const rastreio_entity_1 = __importDefault(require("../entities/rastreio.entity"));
 const ensureCodesExistsMiddleware = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { codes } = request.body;
     const queryString = (0, pg_format_1.default)(`
@@ -25,8 +26,9 @@ const ensureCodesExistsMiddleware = (request, response, next) => __awaiter(void 
 	WHERE 
 		id IN (%L)
 	`, codes);
-    const queryResult = yield database_1.client.query(queryString);
-    if (queryResult.rowCount != codes.length) {
+    const codesRepository = data_source_1.AppDataSource.getRepository(rastreio_entity_1.default);
+    const queryResult = yield codesRepository.query(queryString);
+    if (queryResult.length != codes.length) {
         throw new error_1.AppError("Some code not found", 404);
     }
     return next();

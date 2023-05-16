@@ -14,7 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUsersService = void 0;
 const pg_format_1 = __importDefault(require("pg-format"));
-const database_1 = require("../../database");
+const users_entity_1 = __importDefault(require("../../entities/users.entity"));
+const data_source_1 = require("../../data-source");
 const createUsersService = (userData) => __awaiter(void 0, void 0, void 0, function* () {
     // userData.password = await bcrypt.hash(userData.password,8)
     const queryString = (0, pg_format_1.default)(`
@@ -25,7 +26,8 @@ const createUsersService = (userData) => __awaiter(void 0, void 0, void 0, funct
 	RETURNING
 		"id","username","email","active"
 	`, Object.keys(userData), Object.values(userData));
-    const queryResult = yield database_1.client.query(queryString);
-    return queryResult.rows[0];
+    const userRepository = data_source_1.AppDataSource.getRepository(users_entity_1.default);
+    const queryResult = yield userRepository.query(queryString);
+    return queryResult[0];
 });
 exports.createUsersService = createUsersService;

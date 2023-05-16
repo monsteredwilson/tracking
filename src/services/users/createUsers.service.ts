@@ -1,8 +1,8 @@
 import format from "pg-format";
 import { TUsers, TUsersRequest, TUsersResponse } from "../../interfaces/users.interfaces";
-import * as bcrypt from 'bcryptjs'
-import { QueryResult } from "pg";
-import { client } from "../../database";
+import { Repository } from 'typeorm'
+import User from "../../entities/users.entity";
+import { AppDataSource } from "../../data-source";
 
 
 export const createUsersService =async (userData: TUsersRequest): Promise<TUsersResponse> => {
@@ -21,7 +21,9 @@ export const createUsersService =async (userData: TUsersRequest): Promise<TUsers
 	Object.values(userData)
 	)
 
-	const queryResult: QueryResult<TUsersResponse> = await client.query(queryString)
+	const userRepository: Repository<User> = AppDataSource.getRepository(User)
 
-	return queryResult.rows[0]
+	const queryResult = await userRepository.query(queryString)
+
+	return queryResult[0]
 }

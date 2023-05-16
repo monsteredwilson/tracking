@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../error";
-import { QueryResult } from "pg";
-import { TUsersResponse } from "../interfaces/users.interfaces";
-import { client } from "../database";
+import { AppDataSource } from "../data-source";
+import {Repository} from 'typeorm'
+import User from "../entities/users.entity";
 
 export const ensureUserExistsMiddleware = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
 
@@ -15,10 +15,11 @@ export const ensureUserExistsMiddleware = async (request: Request, response: Res
 	WHERE 
 		id = ${id}
 	`
+	const userRepository: Repository<User> = AppDataSource.getRepository(User)
 
-	const queryResult: QueryResult<TUsersResponse> = await client.query(queryString)
+	const queryResult = await userRepository.query(queryString)
 
-	if(queryResult.rowCount == 0){
+	if(queryResult.length == 0){
 		throw new AppError("User not found", 404)
 	}
 

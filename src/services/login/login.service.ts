@@ -1,11 +1,10 @@
 import format from "pg-format";
 import { TLoginRequest, TLoginResponse } from "../../interfaces/login.interfaces";
-import { QueryResult } from "pg";
-import { TUsers } from "../../interfaces/users.interfaces";
-import { client } from "../../database";
 import { AppError } from "../../error";
 import jwt from 'jsonwebtoken'
-
+import { AppDataSource } from "../../data-source";
+import {Repository} from 'typeorm'
+import User from "../../entities/users.entity";
 
 export const loginService =async (loginData: TLoginRequest): Promise<TLoginResponse> => {
 	
@@ -18,11 +17,15 @@ export const loginService =async (loginData: TLoginRequest): Promise<TLoginRespo
 		email = %L
 	`, loginData.email)
 
-	const queryResult: QueryResult<TUsers> = await client.query(queryString)
+	const userRepository: Repository<User> = AppDataSource.getRepository(User)
 
-	const user = queryResult.rows[0]
+	const queryResult = await userRepository.query(queryString)
 
-	if(queryResult.rowCount == 0){
+	
+	const user = queryResult[0]
+	
+
+	if(queryResult.length == 0){
 		throw new AppError('Wrong email/password', 401)
 	}
 
@@ -32,7 +35,7 @@ export const loginService =async (loginData: TLoginRequest): Promise<TLoginRespo
 		throw new AppError('Wrong email/password', 401)
 	}
 
-	if(!queryResult.rows[0].active){
+	if(!queryResult[0].active){
 		throw new AppError('User inactive', 404)
 	}
 
@@ -46,6 +49,8 @@ export const loginService =async (loginData: TLoginRequest): Promise<TLoginRespo
 			subject: user.id.toString()
 		}
 	)
+
+	
 
 	return {token}
 }
