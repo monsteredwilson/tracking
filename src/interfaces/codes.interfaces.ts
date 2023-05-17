@@ -1,9 +1,11 @@
 import {z} from 'zod'
-import { buyCodeSchemaRequest, codeSchema, codeSchemaRequest, codeSchemaResponse, codeSchemaView, filterSchema } from '../schemas/codes.schema'
+import { buyCodeSchemaRequest, codeSchema, codeSchemaCreate, codeSchemaRequest, codeSchemaResponse, codeSchemaView, filterSchema } from '../schemas/codes.schema'
 
 export type TCodes = z.infer<typeof codeSchema>
 
 export type TCodesView = z.infer<typeof codeSchemaView>
+
+export type TCodesCreate = z.infer<typeof codeSchemaCreate>
 
 export type TCodesRequest = z.infer<typeof codeSchemaRequest>
 

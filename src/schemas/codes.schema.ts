@@ -14,6 +14,8 @@ export const codeSchema = z.object({
 
 export const codeSchemaView = codeSchema.omit({code: true, userId: true})
 
+export const codeSchemaCreate = codeSchema.omit({id: true, userId: true})
+
 export const codeSchemaRequest = codeSchema.pick({id: true})
 
 export const codeSchemaResponse = codeSchema.omit({userId: true})
