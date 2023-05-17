@@ -8,7 +8,7 @@ export const returnUserService =async (token: string | undefined, id: number): P
 
 	const queryString = `
 		SELECT 
-			"id","username","email","credits", "admin"
+			"id","username","email","credits"
 		FROM
 			users
 		WHERE

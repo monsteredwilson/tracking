@@ -10,8 +10,8 @@ export const usersSchema = z.object({
 	active: z.boolean().default(true)
 })
 
-export const usersSchemaRequest = usersSchema.omit({id: true, credits: true,active: true})
+export const usersSchemaRequest = usersSchema.omit({id: true, credits: true,admin: true,active: true})
 
-export const usersSchemaResponse = usersSchema.omit({password: true})
+export const usersSchemaResponse = usersSchema.omit({password: true, admin: true})
 
 export const creditsSchemaRequest = usersSchema.pick({credits: true})
