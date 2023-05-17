@@ -5,7 +5,6 @@ import { buyCodesService } from "../services/codes/buyCodes.service";
 import { retrieveCodesUserService } from "../services/codes/retrieveCodesUser.service";
 import { createCodesService } from "../services/codes/createCodes.service";
 import { retrieveNumberRowsCodesService } from "../services/codes/retrieveNumberRowsCodes.service";
-import { json } from "react-router-dom";
 
 export const showCodesController = async (request: Request, response: Response):Promise<Response> => {
 
