@@ -12,6 +12,6 @@ export const usersSchema = z.object({
 
 export const usersSchemaRequest = usersSchema.omit({id: true, credits: true,active: true})
 
-export const usersSchemaResponse = usersSchema.omit({password: true, admin: true})
+export const usersSchemaResponse = usersSchema.omit({password: true})
 
 export const creditsSchemaRequest = usersSchema.pick({credits: true})
