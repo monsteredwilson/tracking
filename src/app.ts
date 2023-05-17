@@ -8,7 +8,7 @@ import cors from 'cors'
 
 const app: Application = express()
 app.use(express.json())
-app.use(cors())
+app.use(cors({origin: 'https://type-orm-deploy.onrender.com'}))
 app.use('/users', userRoutes)
 app.use('/login', loginRoutes)
 app.use('/codes', codesRoutes)
