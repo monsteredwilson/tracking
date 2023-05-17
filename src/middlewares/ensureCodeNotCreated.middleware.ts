@@ -10,7 +10,7 @@ import Rastreio from "../entities/rastreio.entity";
 
 export const ensureCodeNotCreatedMiddleware = async (request: Request, response: Response, next: NextFunction): Promise<Response | void> => {
 
-	const {code} = request.body.code
+	const code = request.body.code
 
 	const queryString: string = format(`
 	SELECT * 
@@ -23,6 +23,8 @@ export const ensureCodeNotCreatedMiddleware = async (request: Request, response:
 	const codesRepository: Repository<Rastreio> = AppDataSource.getRepository(Rastreio)
 
 	const queryResult = await codesRepository.query(queryString)
+
+	console.log(queryResult)
 
 	if(queryResult.length != 0){
 		throw new AppError("Code already created", 409)

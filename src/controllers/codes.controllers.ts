@@ -53,5 +53,5 @@ export const createCodesController =async (request: Request, response: Response)
 
 	const newCode: TCodes = await createCodesService(token, isAdmin, codeData)
 
-	return response.status(200)
+	return response.status(200).json(newCode)
 }

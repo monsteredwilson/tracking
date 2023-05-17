@@ -7,7 +7,7 @@ class Rastreio {
 	@PrimaryGeneratedColumn('uuid')
 	id: string
 
-	@Column({type: 'varchar', length:14})
+	@Column({type: 'varchar', length:14, unique: true})
 	codigo: string
 
 	@Column({type: 'varchar', length:20})
