@@ -4,6 +4,8 @@ import { showCodesService } from "../services/codes/showCodes.service";
 import { buyCodesService } from "../services/codes/buyCodes.service";
 import { retrieveCodesUserService } from "../services/codes/retrieveCodesUser.service";
 import { createCodesService } from "../services/codes/createCodes.service";
+import { retrieveNumberRowsCodesService } from "../services/codes/retrieveNumberRowsCodes.service";
+import { json } from "react-router-dom";
 
 export const showCodesController = async (request: Request, response: Response):Promise<Response> => {
 
@@ -54,4 +56,16 @@ export const createCodesController =async (request: Request, response: Response)
 	const newCode: TCodes = await createCodesService(token, isAdmin, codeData)
 
 	return response.status(200).json(newCode)
+}
+
+
+export const retrieveNumberRowsCodesController =async (request: Request, response: Response):Promise<Response> => {
+
+	const token: string | undefined = request.headers.authorization
+
+	const { isAdmin } = response.locals
+
+	const codeRows: number = await retrieveNumberRowsCodesService(token, isAdmin)
+	
+	return response.status(200).json(codeRows)
 }
