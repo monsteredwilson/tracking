@@ -11,9 +11,9 @@ const app: Application = express()
 app.use(express.json())
 
 app.use((req,res,next)=>{
-	// console.log('teste cors')
-	app.use(cors())
-	next()
+	res.header("Access-Control-Allow-Origin", "*");
+	app.use(cors());
+	next();
 })
 
 app.use('/users', userRoutes)
