@@ -6,11 +6,10 @@ import { ensureTokenIsValidMiddleware } from "../middlewares/ensureTokenIsValid.
 import { ensureIsAdminMiddleware } from "../middlewares/ensureIsAdmin.middleware";
 import { ensureUserExistsMiddleware } from "../middlewares/ensureUserExists.middleware";
 import { ensureUserIsActiveMiddleware } from "../middlewares/ensureUserIsActive.middleware";
-import { corsMiddleware } from "../middlewares/cors.middleware";
 
 export const userRoutes: Router = Router()
 
-userRoutes.post('', corsMiddleware,validateDataMiddleware(usersSchemaRequest),createUsersController)
+userRoutes.post('',validateDataMiddleware(usersSchemaRequest),createUsersController)
 userRoutes.get('', ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, retrieveUsersController)
 userRoutes.get('/profile', ensureTokenIsValidMiddleware, returnUserController)
 userRoutes.patch('/credits/:id', ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, ensureUserExistsMiddleware, sendCreditsUserController)
