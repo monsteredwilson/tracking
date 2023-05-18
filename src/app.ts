@@ -10,10 +10,13 @@ const app: Application = express()
 
 app.use(express.json())
 
-app.use((req,res,next)=>{
-	res.header("Access-Control-Allow-Origin", "http://localhost:5173")
-	console.log('teste cors')
-	app.use(cors())
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*")
+	app.use(cors({
+		origin: '*',
+		methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+		allowedHeaders: ['Content-Type', 'Authorization']
+	}))
 	next()
 })
 
