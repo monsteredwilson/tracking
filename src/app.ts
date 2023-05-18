@@ -14,6 +14,7 @@ app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*")
 	app.use(cors({
 		origin: '*',
+		preflightContinue: false,
 		methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
 		allowedHeaders: ['Content-Type', 'Authorization']
 	}))
