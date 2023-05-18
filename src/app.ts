@@ -7,8 +7,8 @@ import { codesRoutes } from './routes/codes.routes'
 import cors from 'cors'
 
 const app: Application = express()
+app.use(cors())
 app.use(express.json())
-app.use(cors({origin: 'http://localhost:5173'}))
 app.use('/users', userRoutes)
 app.use('/login', loginRoutes)
 app.use('/codes', codesRoutes)
