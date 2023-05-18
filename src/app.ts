@@ -8,10 +8,6 @@ import cors from 'cors'
 
 const app: Application = express()
 app.use(express.json())
-app.use((request, response, next)=>{
-	response.header('Access-Control-Allow-Origin','') 
-	next()
-})
 app.use(cors({origin: 'http://localhost:5173'}))
 app.use('/users', userRoutes)
 app.use('/login', loginRoutes)
