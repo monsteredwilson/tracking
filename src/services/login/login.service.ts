@@ -50,6 +50,11 @@ export const loginService =async (loginData: TLoginRequest): Promise<TLoginRespo
 		}
 	)
 
+	const responseLogin = {
+		token: token,
+		userId: user.id,
+		admin: user.admin
+	}
 
-	return {token}
+	return responseLogin
 }
