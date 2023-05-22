@@ -6,7 +6,7 @@ export const loginController =async (request: Request, response: Response): Prom
 	
 	const loginData: TLoginRequest = request.body
 
-	const responseLogin: TLoginResponse = await loginService(loginData)
+	const token: TLoginResponse = await loginService(loginData)
 
-	return response.status(200).json(responseLogin)
+	return response.status(200).json(token)
 }
