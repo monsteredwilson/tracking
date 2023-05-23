@@ -34,7 +34,7 @@ export const retrieveUserByEmailController =async (request: Request, response: R
 
 	const { isAdmin } = response.locals
 
-	const email = request.params.email
+	const email = request.body.email
 
 	const user: TUsersResponse = await retrieveUserByEmailService(token, isAdmin, email)
 	

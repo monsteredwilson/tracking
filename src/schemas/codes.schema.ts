@@ -32,3 +32,4 @@ export const filterSchema = z.object({
 export const buyCodeSchemaRequest = z.object({
 	codes: z.array(z.string())
 })
+

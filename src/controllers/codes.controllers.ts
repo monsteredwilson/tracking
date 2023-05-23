@@ -5,6 +5,7 @@ import { buyCodesService } from "../services/codes/buyCodes.service";
 import { retrieveCodesUserService } from "../services/codes/retrieveCodesUser.service";
 import { createCodesService } from "../services/codes/createCodes.service";
 import { retrieveNumberRowsCodesService } from "../services/codes/retrieveNumberRowsCodes.service";
+import { retrieveCodesByEmailService } from "../services/codes/retrieveCodesByEmail.service";
 
 export const showCodesController = async (request: Request, response: Response):Promise<Response> => {
 
@@ -41,6 +42,19 @@ export const retrieveCodesUserController = async (request: Request, response: Re
 	const codes = await retrieveCodesUserService(token, id)
 
 	return response.status(200).json(codes)
+}
+
+export const retrieveCodesByEmailController =async (request: Request, response: Response):Promise<Response> => {
+
+	const token: string | undefined = request.headers.authorization
+
+	const email = request.body.email	
+
+	const {isAdmin} = response.locals
+
+	const userCodes = await retrieveCodesByEmailService(token, email, isAdmin)
+
+	return response.status(200).json(userCodes)
 }
 
 
