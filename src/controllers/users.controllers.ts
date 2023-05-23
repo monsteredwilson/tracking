@@ -5,6 +5,7 @@ import { retrieveUsersService } from "../services/users/retrieveUsers.service"
 import { returnUserService } from "../services/users/returnUser.service"
 import { sendCreditsUserService } from "../services/users/sendCreditsUsers.service"
 import { deleteUserService } from "../services/users/deleteUsers.service"
+import { retrieveUserByEmailService } from "../services/users/retrieveUserByEmail.service"
 
 export const createUsersController = async (request: Request, response: Response): Promise<Response> => {
 
@@ -25,6 +26,19 @@ export const retrieveUsersController = async (request: Request, response: Respon
 	const users: TUsersResponse[] = await retrieveUsersService(token, isAdmin)
 
 	return response.status(200).json(users)
+}
+
+export const retrieveUserByEmailController =async (request: Request, response: Response): Promise<Response> => {
+
+	const token: string | undefined = request.headers.authorization
+
+	const { isAdmin } = response.locals
+
+	const email = request.params.email
+
+	const user: TUsersResponse = await retrieveUserByEmailService(token, isAdmin, email)
+	
+	return response.status(200).json(user)
 }
 
 
