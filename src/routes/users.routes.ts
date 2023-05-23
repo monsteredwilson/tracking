@@ -11,7 +11,7 @@ export const userRoutes: Router = Router()
 
 userRoutes.post('',validateDataMiddleware(usersSchemaRequest),createUsersController)
 userRoutes.get('', ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, retrieveUsersController)
-userRoutes.get('/:email', ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, retrieveUserByEmailController)
 userRoutes.get('/profile', ensureTokenIsValidMiddleware, returnUserController)
+userRoutes.get('/:email', ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, retrieveUserByEmailController)
 userRoutes.patch('/credits/:id', ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, ensureUserExistsMiddleware, sendCreditsUserController)
 userRoutes.delete('/:id', ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, ensureUserExistsMiddleware, ensureUserIsActiveMiddleware, deleteUserController)
