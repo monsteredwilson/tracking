@@ -13,5 +13,5 @@ userRoutes.post('',validateDataMiddleware(usersSchemaRequest),createUsersControl
 userRoutes.get('', ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, retrieveUsersController)
 userRoutes.get('/profile', ensureTokenIsValidMiddleware, returnUserController)
 userRoutes.post('/email', ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, retrieveUserByEmailController)
-userRoutes.patch('/credits/:id', validateDataMiddleware(creditsSchemaRequest),ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, ensureUserExistsMiddleware, sendCreditsUserController)
+userRoutes.patch('/credits/:id', validateDataMiddleware(creditsSchemaRequest),ensureTokenIsValidMiddleware, ensureUserExistsMiddleware, sendCreditsUserController)
 userRoutes.delete('/:id', ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, ensureUserExistsMiddleware, ensureUserIsActiveMiddleware, deleteUserController)
