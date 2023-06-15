@@ -21,7 +21,7 @@ codesRoutes.get('', ensureTokenIsValidMiddleware, retrieveCodesUserController)
 
 codesRoutes.get('/list', ensureTokenIsValidMiddleware, listAllCodesController)
 
-codesRoutes.get('/list/city', ensureTokenIsValidMiddleware, listCodeByCityController)
+codesRoutes.post('/list/city', ensureTokenIsValidMiddleware, listCodeByCityController)
 
 codesRoutes.post('/create',validateDataMiddleware(codeSchemaCreate), ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, ensureCodeNotCreatedMiddleware, createCodesController)
 
