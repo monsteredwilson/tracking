@@ -4,7 +4,7 @@ import Rastreio from "../../entities/rastreio.entity";
 import { AppDataSource } from "../../data-source";
 
 
-export const listCodesByCityService =async (token: string | undefined):Promise<TCodesResponse[]> => {
+export const listCodesByCityService =async (token: string | undefined, city: string):Promise<TCodesResponse[]> => {
 
 	const codesRepository: Repository<Rastreio> = AppDataSource.getRepository(Rastreio)
 	
@@ -21,7 +21,7 @@ export const listCodesByCityService =async (token: string | undefined):Promise<T
 
 	queryBuilder.where('rastreio.userId IS NULL');
 
-	queryBuilder.andWhere(`rastreio.endereco_final LIKE '%MG'`)
+	queryBuilder.andWhere(`rastreio.endereco_final LIKE '%${city}'`)
 
 	queryBuilder.orderBy('rastreio.data_de_postagem', 'DESC');
 

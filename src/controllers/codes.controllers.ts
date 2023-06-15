@@ -100,7 +100,9 @@ export const listCodeByCityController =async (request: Request, response: Respon
 	
 	const token: string | undefined = request.headers.authorization
 
-	const allCodes: TCodes[] = await listCodesByCityService(token)
+	const city: string = request.body.city
+
+	const allCodes: TCodes[] = await listCodesByCityService(token, city)
 
 	return response.status(200).json(allCodes)
 }
