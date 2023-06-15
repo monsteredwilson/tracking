@@ -7,6 +7,7 @@ import { createCodesService } from "../services/codes/createCodes.service";
 import { retrieveNumberRowsCodesService } from "../services/codes/retrieveNumberRowsCodes.service";
 import { retrieveCodesByEmailService } from "../services/codes/retrieveCodesByEmail.service";
 import { listAllCodesService } from "../services/codes/listAllCodes.service";
+import { listCodesByCityService } from "../services/codes/listCodesByCity.service";
 
 export const showCodesController = async (request: Request, response: Response):Promise<Response> => {
 
@@ -90,6 +91,16 @@ export const listAllCodesController =async (request: Request, response: Response
 	const token: string | undefined = request.headers.authorization
 
 	const allCodes: TCodes[] = await listAllCodesService(token)
+
+	return response.status(200).json(allCodes)
+}
+
+
+export const listCodeByCityController =async (request: Request, response: Response):Promise<Response> => {
+	
+	const token: string | undefined = request.headers.authorization
+
+	const allCodes: TCodes[] = await listCodesByCityService(token)
 
 	return response.status(200).json(allCodes)
 }

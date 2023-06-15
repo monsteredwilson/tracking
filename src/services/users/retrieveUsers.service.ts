@@ -8,7 +8,7 @@ export const retrieveUsersService = async (token: string | undefined, isAdmin: b
 
 	const queryString = `
 	SELECT 
-		"id", "username", "email", "admin" ,"credits", "active"
+		"id", "username", "email","password", "admin" ,"credits", "active"
 	FROM 
 		users
 	`
