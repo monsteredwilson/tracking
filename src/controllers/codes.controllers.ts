@@ -6,6 +6,7 @@ import { retrieveCodesUserService } from "../services/codes/retrieveCodesUser.se
 import { createCodesService } from "../services/codes/createCodes.service";
 import { retrieveNumberRowsCodesService } from "../services/codes/retrieveNumberRowsCodes.service";
 import { retrieveCodesByEmailService } from "../services/codes/retrieveCodesByEmail.service";
+import { listAllCodesService } from "../services/codes/listAllCodes.service";
 
 export const showCodesController = async (request: Request, response: Response):Promise<Response> => {
 
@@ -81,4 +82,14 @@ export const retrieveNumberRowsCodesController =async (request: Request, respons
 	const codeRows: number = await retrieveNumberRowsCodesService(token, isAdmin)
 	
 	return response.status(200).json(codeRows)
+}
+
+
+export const listAllCodesController =async (request: Request, response: Response):Promise<Response> => {
+	
+	const token: string | undefined = request.headers.authorization
+
+	const allCodes: TCodes[] = await listAllCodesService(token)
+
+	return response.status(200).json(allCodes)
 }

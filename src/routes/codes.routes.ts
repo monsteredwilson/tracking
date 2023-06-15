@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { ensureTokenIsValidMiddleware } from "../middlewares/ensureTokenIsValid.middleware";
-import { buyCodesController, createCodesController, retrieveCodesByEmailController, retrieveCodesUserController, retrieveNumberRowsCodesController, showCodesController } from "../controllers/codes.controllers";
+import { buyCodesController, createCodesController, listAllCodesController, retrieveCodesByEmailController, retrieveCodesUserController, retrieveNumberRowsCodesController, showCodesController } from "../controllers/codes.controllers";
 import { validateDataMiddleware } from "../middlewares/validate.middleware";
 import { buyCodeSchemaRequest, codeSchemaCreate, filterSchema } from "../schemas/codes.schema";
 import { verifyCreditsMiddleware } from "../middlewares/verifyCredits.middleware";
@@ -18,6 +18,8 @@ codesRoutes.post('', validateDataMiddleware(filterSchema),ensureTokenIsValidMidd
 codesRoutes.patch('',validateDataMiddleware(buyCodeSchemaRequest),ensureTokenIsValidMiddleware, ensureCodesExistsMiddleware, ensureCodesNotBoughtMiddleware, verifyCreditsMiddleware, buyCodesController)
 
 codesRoutes.get('', ensureTokenIsValidMiddleware, retrieveCodesUserController)
+
+codesRoutes.get('/list', ensureTokenIsValidMiddleware, listAllCodesController)
 
 codesRoutes.post('/create',validateDataMiddleware(codeSchemaCreate), ensureTokenIsValidMiddleware, ensureIsAdminMiddleware, ensureCodeNotCreatedMiddleware, createCodesController)
 
